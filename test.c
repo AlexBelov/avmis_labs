@@ -30,20 +30,52 @@ void itoc(int num, char *buf)
 {
   int i = 0;
 
+  int unit100 = 0;
+  int unit10 = 0;
+  int unit1 = 0;
+
+  for(i; i < 5; i++)
+  {
+    buf[i] = '\0';
+  }
+
+  i = 0;
+
   if (num < 0)
   {
     buf[i++] = '-';
     num *= -1;
   }
 
-  if (num / 10 == 0)
+  unit100 = num / 100;
+
+  if (unit100 == 0)
   {
-    buf[i++] = num + '0';
+    unit10 = num / 10;
   }
   else
   {
-    buf[i++] = num / 10 + '0';
-    buf[i++] = num % 10 + '0';
+    unit10 = num / 10 % 10;
+  }
+
+  unit1 = num % 10;
+
+  //printf("%d %d %d\n", unit100, unit10, unit1);
+
+  if (unit100 == 0 && unit10 == 0)
+  {
+    buf[i++] = unit1 + '0';
+  }
+  else if (unit100 == 0 && unit10 != 0)
+  {
+    buf[i++] = unit10 + '0';
+    buf[i++] = unit1 + '0';
+  }
+  else
+  {
+    buf[i++] = unit100 + '0';
+    buf[i++] = unit10 + '0';
+    buf[i++] = unit1 + '0';
   }
 
   buf[i] = '\0';
@@ -51,7 +83,7 @@ void itoc(int num, char *buf)
 
 int main()
 {
-  char control[20] = "-11+9=*95876=";
+  char control[255] = "-11+9=*95876=\0";
   char selected_control;
   int current_char = 0;
   int current_digit = 0;
@@ -64,9 +96,9 @@ int main()
   int have_result = 0;
   char operation;
   int i;
-  char test_itoc[4];
+  char test_itoc[5] = "-123\0";
 
-  for(i=0; i<13; i++)
+  for(i=0; control[i] != '\0'; i++)
   {
     selected_control = control[i];
     //printf("selected: %c\n", selected_control);
@@ -139,9 +171,9 @@ int main()
 
       printf("eval %d %c %d = %d\n", inum1, operation, inum2, result);
 
-      //printf("result = %d\n", result);
-      //itoc(result, test_itoc);
-      //printf("converted to char = %s\n", test_itoc);
+      // printf("result = %d\n", result);
+      // itoc(result, test_itoc);
+      // printf("converted to char = %s\n", test_itoc);
 
       current_num = 1;
       if (have_result == 0)
