@@ -51,7 +51,7 @@ void itoc(int num, char *buf)
 
 int main()
 {
-  char control[20] = "-11+9=*5=";
+  char control[20] = "-11+9=*95876=";
   char selected_control;
   int current_char = 0;
   int current_digit = 0;
@@ -66,7 +66,7 @@ int main()
   int i;
   char test_itoc[4];
 
-  for(i=0; i<11; i++)
+  for(i=0; i<13; i++)
   {
     selected_control = control[i];
     //printf("selected: %c\n", selected_control);
@@ -165,8 +165,18 @@ int main()
     {
       if (current_digit > 1)
       {
-        current_digit = 1;
-        current_char -= 1;
+        current_digit++;
+        current_char--;
+
+        switch(current_num)
+        {
+          case 1:
+            num1[current_char-1] = num1[current_char];
+            break;
+          case 2:
+            num2[current_char-1] = num2[current_char];
+            break;
+        }
       }
 
       switch(current_num)
